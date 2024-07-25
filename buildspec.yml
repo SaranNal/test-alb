@@ -10,7 +10,7 @@ phases:
       - echo "running s3 sync command"
       - aws s3 sync ./ s3://${CLONE_TEMPLATE_BUCKET}/ --exclude "buildspec.yml"
 
-      echo $PublicSubnets
+      - echo $PublicSubnets
       # Execute external script
       # - echo "Running external script"
       # - chmod +x update_stacks.sh
