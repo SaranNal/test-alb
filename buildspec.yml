@@ -21,7 +21,7 @@ phases:
       - |
         if aws cloudformation describe-stacks --stack-name test-alb >/dev/null 2>&1; then
           echo "Updating test-alb...."
-          aws cloudformation create-change-set --stack-name test-alb --template-url https://test--template.s3.amazonaws.com/test-alb.yml --change-set-name test-alb-changeset --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=SSLCertificateID,ParameterValue=${SSLCertificateID} ParameterKey=VPC,ParameterValue=${VPC} ParameterKey=PublicSubnets,ParameterValue=${PUBLIC_SUBNETS} ParameterKey=LoadbalancerSecurityGroup,ParameterValue=${LoadbalancerSecurityGroup}
+          aws cloudformation create-change-set --stack-name test-alb --template-url https://test--template.s3.amazonaws.com/test-alb.yml --change-set-name test-alb-changeset --capabilities CAPABILITY_NAMED_IAM --parameters .parameters.json
           aws cloudformation wait change-set-create-complete --stack-name test-alb --change-set-name test-alb-changeset
           aws cloudformation describe-change-set --stack-name test-alb --change-set-name test-alb-changeset
         else
