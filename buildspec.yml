@@ -10,10 +10,11 @@ phases:
       - echo "running s3 sync command"
       - aws s3 sync ./ s3://${CLONE_TEMPLATE_BUCKET}/ --exclude "buildspec.yml"
 
-      # Directly use a hard-coded value for testing
-      - echo "Using hard-coded PublicSubnets value for testing"
-      - PUBLIC_SUBNETS="subnet-0bc9e2992de3412ae,subnet-0a2ee0382e3fffdea,subnet-07d88f457c3d22490,subnet-02f6f269c97e21a69,subnet-0b09996022939ca89,subnet-09913ab8e8aa50d3f"
-      - echo "PublicSubnets as string: $PUBLIC_SUBNETS"
+      # Convert list parameters to comma-separated strings
+      - echo "Converting parameters to string"
+      - |
+        PUBLIC_SUBNETS="subnet-0bc9e2992de3412ae,subnet-0a2ee0382e3fffdea,subnet-07d88f457c3d22490,subnet-02f6f269c97e21a69,subnet-0b09996022939ca89,subnet-09913ab8e8aa50d3f"
+        echo "PublicSubnets as string: $PUBLIC_SUBNETS"
 
       # Check and deploy/update test-alb if changes are detected
       - echo "checking changes for test-alb"
