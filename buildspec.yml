@@ -13,7 +13,7 @@ phases:
       # Convert list parameters to comma-separated strings
       - echo "Converting parameters to string"
       - |
-        PUBLIC_SUBNETS="subnet-0bc9e2992de3412ae,subnet-0a2ee0382e3fffdea,subnet-07d88f457c3d22490,subnet-02f6f269c97e21a69,subnet-0b09996022939ca89,subnet-09913ab8e8aa50d3f"
+        PUBLIC_SUBNETS=$(echo ${PublicSubnets} | jq -R -s -c 'split(" ") | join(",")' | tr -d '\n')
         echo "PublicSubnets as string: $PUBLIC_SUBNETS"
 
       # Check and deploy/update test-alb if changes are detected
