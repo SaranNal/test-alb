@@ -8,6 +8,7 @@ set -e
 # echo "PublicSubnets as string: $PUBLIC_SUBNETS"
 
 # Check and deploy/update test-alb if changes are detected
+cat ./parameters.json
 echo "Checking changes for test-alb"
 if aws cloudformation describe-stacks --stack-name test-alb >/dev/null 2>&1; then
   echo "Updating test-alb...."
@@ -16,7 +17,7 @@ if aws cloudformation describe-stacks --stack-name test-alb >/dev/null 2>&1; the
     --template-url https://test--template.s3.amazonaws.com/test-alb.yml \
     --change-set-name test-alb-changeset \
     --capabilities CAPABILITY_NAMED_IAM \
-    --parameters ./parameters.json
+    --parameters file://parameters.json
   aws cloudformation wait change-set-create-complete \
     --stack-name test-alb \
     --change-set-name test-alb-changeset
