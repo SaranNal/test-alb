@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  VPC:
+    Description: VPC
+    Type: String
+  LoadbalancerSecurityGroup:
+    Description: LoadbalancerSecurityGroup
+    Type: String
+  SSLCertificateID:
+    Type: String
+  PublicSubnets:
+    Description: PublicSubnets
+    Type: CommaDelimitedList
+
+Resources:
+  Loadbalancer:
+    #condition only if it is dev or production
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: test-alb
+      Subnets: !Ref PublicSubnets
+      # - !Join [",", !Ref PublicSubnets]
+      SecurityGroups:
+        - !Ref LoadbalancerSecurityGroup
+      Type: application
+
+  HTTPListener:
+    #condition only if it is dev or production
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref Loadbalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: redirect
+          RedirectConfig:
+            Host: '#{host}'
+            Path: '/#{path}'
+            Query: '#{query}'
+            Port: 443
+            Protocol: HTTPS
+            StatusCode: HTTP_301
+
+Outputs:
+  Loadbalancer:
+    Value: !GetAtt Loadbalancer.DNSName
