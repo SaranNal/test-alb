@@ -10,12 +10,17 @@ phases:
       - echo running s3 sync command
       - aws s3 sync ./ s3://${CLONE_TEMPLATE_BUCKET}/ --exclude "buildspec.yml"
 
+      # Convert list parameters to comma-separated strings
+      - echo Converting parameters to string
+      - PUBLIC_SUBNETS=$(echo ${PublicSubnets} | jq -R -s -c 'split(" ") | join(",")')
+      - echo "PublicSubnets as string: $PUBLIC_SUBNETS"
+
       # Check and deploy/update test-alb if changes are detected
       - echo checking changes for test-alb
       - >
         if aws cloudformation describe-stacks --stack-name test-alb >/dev/null 2>&1; then
           echo "Updating test-alb...."
-          aws cloudformation create-change-set --stack-name test-alb --template-url https://test--template.s3.amazonaws.com/test-alb.yml --change-set-name test-alb-changeset --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=SSLCertificateID,ParameterValue=${SSLCertificateID} ParameterKey=VPC,ParameterValue=${VPC} ParameterKey=PublicSubnets,ParameterValue=${PublicSubnets} ParameterKey=CodeStarConnectionID,ParameterValue=${CodeStarConnectionID} ParameterKey=StackBucketName,ParameterValue=${CLONE_TEMPLATE_BUCKET} ParameterKey=LoadbalancerSecurityGroup,ParameterValue=${LoadbalancerSecurityGroup}
+          aws cloudformation create-change-set --stack-name test-alb --template-url https://test--template.s3.amazonaws.com/test-alb.yml --change-set-name test-alb-changeset --capabilities CAPABILITY_NAMED_IAM --parameters ParameterKey=SSLCertificateID,ParameterValue=${SSLCertificateID} ParameterKey=VPC,ParameterValue=${VPC} ParameterKey=PublicSubnets,ParameterValue=${PUBLIC_SUBNETS} ParameterKey=CodeStarConnectionID,ParameterValue=${CodeStarConnectionID} ParameterKey=StackBucketName,ParameterValue=${CLONE_TEMPLATE_BUCKET} ParameterKey=LoadbalancerSecurityGroup,ParameterValue=${LoadbalancerSecurityGroup}
           aws cloudformation wait change-set-create-complete --stack-name test-alb --change-set-name test-alb-changeset
           aws cloudformation describe-change-set --stack-name test-alb --change-set-name test-alb-changeset
         else
