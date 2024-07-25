@@ -16,7 +16,7 @@ if aws cloudformation describe-stacks --stack-name test-alb >/dev/null 2>&1; the
     --template-url https://test--template.s3.amazonaws.com/test-alb.yml \
     --change-set-name test-alb-changeset \
     --capabilities CAPABILITY_NAMED_IAM \
-    --parameters file://parameters.json
+    --parameters ./parameters.json
   aws cloudformation wait change-set-create-complete \
     --stack-name test-alb \
     --change-set-name test-alb-changeset
