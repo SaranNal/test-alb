@@ -9,7 +9,7 @@
   },
   {
     "ParameterKey": "PublicSubnets",
-    "ParameterValue": "subnet-0bc9e2992de3412ae,subnet-0a2ee0382e3fffdea,subnet-07d88f457c3d22490,subnet-02f6f269c97e21a69,subnet-0b09996022939ca89,subnet-09913ab8e8aa50d3f"
+    "ParameterValue": "subnet-0bc9e2992de3412ae,subnet-0a2ee0382e3fffdea,subnet-07d88f457c3d22490,subnet-02f6f269c97e21a69,subnet-0b09996022939ca89,subnet-09913ab8e8aa50d3f1"
   },
   {
     "ParameterKey": "LoadbalancerSecurityGroup",
