@@ -12,9 +12,9 @@ phases:
 
       - echo $PublicSubnets
       # Execute external script
-      # - echo "Running external script"
-      # - chmod +x update_stacks.sh
-      # - ./update_stacks.sh
+      - echo "Running external script"
+      - chmod +x update_stacks.sh
+      - ./update_stacks.sh
 
 artifacts:
   files:
