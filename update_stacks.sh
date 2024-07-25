@@ -3,9 +3,9 @@
 set -e
 
 # Convert parameters to string
-echo "Converting parameters to string"
-PUBLIC_SUBNETS=$(echo "${PublicSubnets}" | jq -R -s -c 'split(" ") | join(",")' | tr -d '\n')
-echo "PublicSubnets as string: $PUBLIC_SUBNETS"
+# echo "Converting parameters to string"
+# PUBLIC_SUBNETS=$(echo "${PublicSubnets}" | jq -R -s -c 'split(" ") | join(",")' | tr -d '\n')
+# echo "PublicSubnets as string: $PUBLIC_SUBNETS"
 
 # Check and deploy/update test-alb if changes are detected
 echo "Checking changes for test-alb"
